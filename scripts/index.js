@@ -8,8 +8,8 @@ initialCards.forEach(element => {
 function createCard (element, deleteCard) {
   const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true);
   cardElement.querySelector('.card__image').src = element.link;
+  cardElement.querySelector('.card__image').alt = element.name;
   cardElement.querySelector('.card__title').textContent = element.name;
-  cardElement.querySelector('.card__title').alt = element.name;
 
   const deleteButton = cardElement.querySelector('.card__delete-button');
   deleteButton.addEventListener('click', () => deleteCard(cardElement));
