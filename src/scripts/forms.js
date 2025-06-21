@@ -1,6 +1,6 @@
-function setProfile(evt, name, description) {
-  name.textContent = evt.currentTarget.elements.name.value;
-  description.textContent = evt.currentTarget.elements.description.value;
+function setProfile(newName, newDescription, name, description) {
+  name.textContent = newName;
+  description.textContent = newDescription;
 }
 
 function setFormInputsPopup(profileName, profileDescription, profileEditFormName, profileEditFormDescription) {
@@ -10,8 +10,13 @@ function setFormInputsPopup(profileName, profileDescription, profileEditFormName
   formDescription.value = profileDescription.textContent;
 }
 
-function flushForm(form) {
+function setImageFormInputsPopup() {
+  
+}
+
+function flushForm(form, buttonInactiveClass) {
   form.reset();
+  form.querySelector('.popup__button').classList.add(buttonInactiveClass);
 }
 
 export {setProfile, setFormInputsPopup, flushForm};

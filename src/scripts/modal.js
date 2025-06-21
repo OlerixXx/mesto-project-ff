@@ -11,7 +11,7 @@ function createCloseModalListener(popup) {
   popup.addEventListener('click', evt => {
     if (evt.target.classList.contains('popup__close') || 
     evt.target.classList.contains('popup')) {
-      closeModal(popup)
+      closeModal(popup);
     }
   });
 }
