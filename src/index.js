@@ -35,24 +35,15 @@ const profileEditFormName = profileEditForm.elements.name;
 const profileEditFormDescription = profileEditForm.elements.description;
 const profileEditPopup = document.querySelector('.popup_type_edit');
 
-const likeActiveClass = 'card__like-button_is-active';
 const buttonInactiveClass = 'popup__button_inactive';
 
-// Инициализиция профиля
-getInitialUserInfo()
-  .then((result) => {
-    profileImage.style.backgroundImage = `url(\'${result.avatar}\')`;
-    profileName.textContent = result.name;
-    profileDescription.textContent = result.about;
-  })
-  .catch((err) => {
-    console.log(err);
-});
-
-// Инициализиция карточек
+// Инициализиция карточек и профиля
 getInitialCards()
   .then((results) => {
-    console.log(results[0]);
+    profileImage.style.backgroundImage = `url(\'${results[1].avatar}\')`;
+    profileName.textContent = results[1].name;
+    profileDescription.textContent = results[1].about;
+
     results[0].forEach(element => {
       cardsContainer.append(createCard(
       element,
@@ -60,7 +51,6 @@ getInitialCards()
       cardTemplate,
       openDeleteModalHandler,
       toggleLike,
-      likeActiveClass,
       openCardImageHandler
     ))})
   })
@@ -70,7 +60,7 @@ getInitialCards()
 
 // Открыть окно редактирования картинки профиля
 avatarEditButton.addEventListener('click', () => {
-  openModal(avatarEditPopup, closeModal);
+  openModal(avatarEditPopup);
 })
 
 // Редактировать картинку профиля
@@ -81,13 +71,13 @@ avatarEditForm.addEventListener('submit', evt => {
   updateAvatarImage(newLink)
     .then((result) => {
       profileImage.style.backgroundImage = `url(\'${result.avatar}\')`;;
+      closeModal(avatarEditPopup);
+      flushForm(avatarEditForm, buttonInactiveClass);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => renderLoading(false, avatarEditForm));
-  closeModal(avatarEditPopup);
-  flushForm(avatarEditForm, buttonInactiveClass);
 })
 
 // Закрыть окно с картинкой профиля
@@ -97,7 +87,7 @@ createCloseModalListener(avatarEditPopup);
 profileEditButton.addEventListener('click', () => {
   setFormInputsPopup(profileName, profileDescription, 
     profileEditFormName, profileEditFormDescription);
-  openModal(profileEditPopup, closeModal);
+  openModal(profileEditPopup);
   clearValidation(profileEditPopup);
 });
 
@@ -110,12 +100,12 @@ profileEditForm.addEventListener('submit', evt => {
   updateProfile(newProfileName, newProfileDescription)
     .then((result) => {
       setProfile(result.name, result.about, profileName, profileDescription);
+      closeModal(profileEditPopup);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => renderLoading(false, profileEditForm));
-  closeModal(profileEditPopup);
 });
 
 // Закрыть окно с профилем
@@ -123,7 +113,7 @@ createCloseModalListener(profileEditPopup);
 
 // Открыть окно добавления новой карточки
 cardAddButton.addEventListener('click', () => {
-  openModal(cardAddPopup, closeModal);
+  openModal(cardAddPopup);
 });
 
 // Добавить новую карточку
@@ -138,16 +128,15 @@ cardAddForm.addEventListener('submit', evt => {
         cardTemplate,
         openDeleteModalHandler,
         toggleLike,
-        likeActiveClass,
         openCardImageHandler)
       );
+      closeModal(cardAddPopup);
+      flushForm(cardAddForm, buttonInactiveClass);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => renderLoading(false, profileEditForm));
-  closeModal(cardAddPopup);
-  flushForm(cardAddForm, buttonInactiveClass);
 })
 
 // Закрыть окно с добавлением карточки
@@ -157,7 +146,7 @@ createCloseModalListener(cardAddPopup);
 function openDeleteModalHandler(cardElement, cardId) {
   cardIdOnDelete = cardId;
   cardElementOnDelete = cardElement;
-  openModal(cardDeletePopup, closeModal);
+  openModal(cardDeletePopup);
 }
 
 // Удалить карточку
@@ -166,11 +155,11 @@ cardDeleteSubmitButton.addEventListener('click', evt => {
   deleteCard(cardIdOnDelete)
     .then((result) => {
       cardElementOnDelete.remove();
+      closeModal(cardDeletePopup);
     })
     .catch((err) => {
       console.log(err);
   })
-  closeModal(cardDeletePopup);
 });
 
 // Закрыть окно с подтверждением удаления карточки
@@ -179,7 +168,7 @@ createCloseModalListener(cardDeletePopup);
 // Открыть картинку на карточке
 function openCardImageHandler(evt) {
   setImagePopup(evt.target);
-  openModal(cardImagePopup, closeModal);
+  openModal(cardImagePopup);
 }
 
 // Закрыть окно с картинкой карточки

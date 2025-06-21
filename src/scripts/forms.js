@@ -15,8 +15,10 @@ function setImageFormInputsPopup() {
 }
 
 function flushForm(form, buttonInactiveClass) {
+  const button = form.querySelector('.popup__button');
   form.reset();
-  form.querySelector('.popup__button').classList.add(buttonInactiveClass);
+  button.classList.add(buttonInactiveClass);
+  button.disabled = true;
 }
 
 export {setProfile, setFormInputsPopup, flushForm};
