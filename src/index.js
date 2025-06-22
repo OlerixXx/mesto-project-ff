@@ -119,7 +119,7 @@ cardAddButton.addEventListener('click', () => {
 // Добавить новую карточку
 cardAddForm.addEventListener('submit', evt => {
   evt.preventDefault();
-  renderLoading(true, profileEditForm)
+  renderLoading(true, cardAddForm)
   createNewCard(cardAddFormInputName.value, cardAddFormInputUrl.value)
     .then((results) => {
       cardsContainer.prepend(createCard(
@@ -136,7 +136,7 @@ cardAddForm.addEventListener('submit', evt => {
     .catch((err) => {
       console.log(err);
     })
-    .finally(() => renderLoading(false, profileEditForm));
+    .finally(() => renderLoading(false, cardAddForm));
 })
 
 // Закрыть окно с добавлением карточки
